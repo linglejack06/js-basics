@@ -1,8 +1,20 @@
 let playerScore = 0;
 let computerScore = 0;
+let roundWin = document.querySelector('h2');
+let score = document.getElementById('score');
 let buttons = document.querySelectorAll('.gameBtn');
 buttons.forEach(button => {
     button.addEventListener('click', playRound);
+});
+let restart = document.getElementById('resetBtn');
+restart.addEventListener('click', () => {
+    score.innerHTML = 'Score: 0-0';
+    roundWin.innerHTML = '';
+    playerScore = 0;
+    computerScore = 0;
+    buttons.forEach(button => {
+        button.disabled = false;
+    });
 });
 function disableButtons() {
     buttons.forEach(button => {
@@ -36,8 +48,6 @@ function getWinner(e) {
 }
 function playRound(e) {
     let winner = getWinner(e);
-    let roundWin = document.querySelector('h2');
-    let score = document.getElementById('score');
     switch(winner) {
         case 'player':
             if (playerScore === 4) {

@@ -1,0 +1,30 @@
+html {
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+body {
+    display: flex;
+    flex-flow: column nowrap;
+    text-align: center;
+}
+.head {
+    text-align: center;
+}
+.options {
+    display: flex;
+    gap: 8px;
+    flex-flow: column nowrap;
+    width: 95%;
+    height: 50%;
+    align-items: center;
+}
+.gameBtn {
+    flex: 1 1 auto;
+    padding: 8px;
+    border: blue 2px solid;
+}
+.body {
+    text-align: center;
+}
+#resetBtn {
+    background-color: red;
+}
