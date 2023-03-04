@@ -1,3 +1,14 @@
+let playerScore = 0;
+let computerScore = 0;
+let buttons = document.querySelectorAll('.gameBtn');
+buttons.forEach(button => {
+    button.addEventListener('click', playRound);
+});
+function disableButtons() {
+    buttons.forEach(button => {
+        button.disabled = true;
+    })
+}
 function getComputerChoice() {
     let random = Math.floor(Math.random() * 3);
     if (random === 2) {
@@ -8,37 +19,51 @@ function getComputerChoice() {
         return 'scissors';
     }
 }
-function getPlayerChoice() {
-    let choice = prompt("Rock, Paper, or Scissors?");
+function getPlayerChoice(e) {
+    let choice = e.target.textContent;
     return choice.toLowerCase();
 }
-function getWinner(playerChoice, computerChoice) {
+function getWinner(e) {
+    let playerChoice = getPlayerChoice(e);
+    let computerChoice = getComputerChoice();
     if (playerChoice === computerChoice) {
-        return 'tie!';
+        return 'tie';
     } else if ((playerChoice === 'rock' && computerChoice === 'scissors') || (playerChoice === 'paper' && computerChoice === 'rock') || (playerChoice === 'scissors' && computerChoice === 'paper')) {
         return 'player';
     } else {
         return 'computer';
     }
 }
-function game() {
-    let playerScore = 0;
-    let computerScore = 0;
-    for (let i = 0; i < 5; i++) {
-        let winner = getWinner(getPlayerChoice(), getComputerChoice());
-        console.log(winner);
-        if (winner === 'player') {
+function playRound(e) {
+    let winner = getWinner(e);
+    let roundWin = document.querySelector('h2');
+    let score = document.getElementById('score');
+    switch(winner) {
+        case 'player':
+            if (playerScore === 4) {
+                score.innerHTML = 'Winner: Player';
+                roundWin.innerHTML = 'Player Wins';
+                disableButtons();
+                break;
+            }
             playerScore++;
-        } else if (winner === 'computer') {
+            score.innerHTML = `Score ${playerScore}-${computerScore}`;
+            roundWin.innerHTML= 'Player Wins Round';
+            break;
+        case 'computer':
+            if (computerScore === 4) {
+                score.innerHTML = 'Winner: Computer';
+                roundWin.innerHTML = 'Computer Wins';
+                disableButtons();
+                break;
+            }
             computerScore++;
-        }
-    }
-    if (playerScore > computerScore) {
-        console.log('Player Wins: ' + playerScore + '-' + computerScore);
-    } else if (computerScore > playerScore) {
-        console.log('Computer Wins: ' + computerScore + '-' + playerScore);
-    } else {
-        console.log('tie: ' + playerScore + '-' + computerScore);
-    }
-}
-game()
+            score.textContent = `Score ${playerScore}-${computerScore}`;
+            roundWin.innerHTML = 'Computer Wins Round';
+            break;
+        case 'tie':
+            score.innerHTML = `Score ${playerScore}-${computerScore}`;
+            roundWin.innerHTML = "It's a tie!";
+            break;
+    };
+};
